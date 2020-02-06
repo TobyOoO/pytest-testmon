@@ -85,8 +85,8 @@ def get_measured_relfiles(rootdir, cov, test_file):
         relfilename = os.path.relpath(filename, rootdir)
         files[relfilename] = cov.get_data().lines(filename)
         assert files[relfilename] is not None, (
-            f"{filename} is in measured_files but wasn't measured! cov.config: "
-            f"{c.config_files}, {c._omit}, {c._include}, {c.source}"
+            "{filename} is in measured_files but wasn't measured! cov.config: ".format(filename=filename) +
+            "{c.config_files}, {c._omit}, {c._include}, {c.source}".format(**c)
         )
     return files
 
@@ -614,7 +614,7 @@ class TestmonConfig:
     def _formulate_deactivation(self, what, reasons):
         if reasons:
             return [
-                f"{what} automatically deactivated because {reasons[0]}, "
+                "{what} automatically deactivated because {reason}, ".format(what=what, reason=reasons[0])
                 if reasons[0]
                 else what + " deactivated, "
             ]
@@ -656,7 +656,7 @@ class TestmonConfig:
             message = ""
 
         return (
-            f"testmon: {message}",
+            "testmon: {message}".format(message=message),
             not bool(nocollect_reasons),
             not bool(noselect_reasons),
         )
